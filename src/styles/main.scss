@@ -1,43 +1,24 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  outline: none;
-  text-decoration: none;
-}
-
-$main-font-family: Montserrat;
+$main-font-family: Montserrat, Arial, sans-serif;
+$second-font-family: Mulish, Arial, sans-serif;
 $black: #131313;
+$second-black: #171717;
 $white: #fff;
 $beige: #c2ab81;
 
-:root {
-  background-color: $black;
-  font-family: $main-font-family;
-  color: $white;
-  font-style: normal;
-  font-weight: 400;
+@mixin cards-text {
+  color: #666;
+  line-height: 24px;
 }
 
-input,
-button,
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-  border: none;
+@mixin second-font {
+  font-family: $second-font-family;
+  font-size: 14px;
 }
 
-button {
-  cursor: pointer;
-}
-
-ul {
-  list-style-type: none;
-}
-
-a {
-  color: $white;
+@mixin background-image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .container {
@@ -45,16 +26,26 @@ a {
   margin: auto;
 }
 
-// Header
+.title {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
 
-header {
-  display: flex;
+  text-transform: uppercase;
+
+  &_margin {
+    margin-top: 133px;
+    margin-bottom: 53px;
+  }
+}
+
+.slant {
+  transform: skew(17deg);
 }
 
 .header {
   display: flex;
   align-items: center;
-  width: 100%;
   padding: 26px 0;
 
   &__menu {
@@ -63,13 +54,22 @@ header {
     padding-left: 76px;
     padding-right: 271px;
   }
+
   &__item {
-    text-align: right;
     font-size: 14px;
     font-weight: 700;
     line-height: 150%;
     text-transform: uppercase;
   }
+
+  &__item a:hover {
+    color: $beige;
+  }
+
+  &__contacts {
+    display: flex;
+  }
+
   &__phone {
     display: flex;
     justify-content: center;
@@ -86,10 +86,6 @@ header {
   &__phone:hover {
     outline: 1px solid $white;
   }
-
-  &__contacts {
-    display: flex;
-  }
 }
 
 .request {
@@ -102,13 +98,18 @@ header {
     background-color: $beige;
     transform: skew(-17deg);
   }
+
   &__button:hover {
     outline: 1px solid $white;
   }
 
+  &__button:active {
+    outline: none;
+  }
+
   &__text {
+    font-family: $main-font-family;
     color: #fff;
-    text-align: right;
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 700;
@@ -125,21 +126,18 @@ header {
 }
 
 .hero {
+  @include background-image;
   display: flex;
   justify-content: start;
   align-items: self-end;
-
   height: 960px;
   background-image: url("/src/images/earth.jpg");
   background-color: $black;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 
   &__content {
     display: flex;
     flex-direction: column;
-    width: 550px;
+    max-width: 550px;
     margin-left: 67px;
     margin-bottom: 93px;
     gap: 39px;
@@ -147,7 +145,7 @@ header {
 
   &__text {
     font-size: 16px;
-    line-height: 150%; 
+    line-height: 150%;
     opacity: 0.79;
   }
 
@@ -156,14 +154,107 @@ header {
   }
 }
 
-.title {
-  margin: 0;
-  font-size: 42px;
-  font-weight: 700;
-  line-height: normal;
-  text-transform: uppercase;
-}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 60px;
 
-.slant {
-  transform: skew(17deg);
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    height: 620px;
+    width: 320px;
+    background-color: $white;
+
+    opacity: 0;
+    transition: opacity 1.2s ease;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  &__img {
+    @include background-image;
+    width: 100%;
+    height: 185px;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    padding: 25px 28px 24px 24px;
+    gap: 20px;
+  }
+
+  &__title {
+    @include second-font;
+    color: $second-black;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    color: $second-black;
+    font-size: 16px;
+    line-height: 26px;
+    height: 50px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__text {
+    @include cards-text;
+    font-size: 14px;
+    height: 145px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__date {
+    @include cards-text;
+    font-size: 12px;
+  }
+
+  &__author {
+    @include cards-text;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &__btn {
+    @include second-font;
+    width: 272px;
+    padding: 16px 0;
+    margin-bottom: 30px;
+    background: $second-black;
+    color: $white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &__btn:hover {
+    outline: 1px solid black;
+    font-weight: 700;
+  }
+
+  & + .request {
+    justify-content: center;
+    margin-bottom: 256px;
+  }
 }

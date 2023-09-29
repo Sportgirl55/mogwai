@@ -1,0 +1,42 @@
+$main-font-family: Montserrat, Arial, sans-serif;
+$black: #131313;
+$white: #fff;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+}
+
+:root {
+  background-color: $black;
+  font-family: $main-font-family;
+  color: $white;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+input,
+button,
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  border: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: $white;
+}

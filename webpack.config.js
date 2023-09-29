@@ -1,54 +1,67 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const devServer = (isDev) => !isDev ? {} : {
-    devServer: {
-        open: true,
-        hot: true,
-        port: 8000
-    }
-};
+const devServer = (isDev) =>
+  !isDev
+    ? {}
+    : {
+        devServer: {
+          open: true,
+          hot: true,
+          port: 8000,
+        },
+      };
 
-module.exports = ({develop}) => ({
-  mode: develop ? 'development' : 'production',
-  entry: './src/index.js',
+module.exports = ({ develop }) => ({
+  mode: develop ? "development" : "production",
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
     clean: true,
   },
   plugins: [
-      new HtmlWebpackPlugin({
-          template: './src/index.html'
-      }),
-      new MiniCssExtractPlugin({
-          filename: './styles/main.css'
-      })
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: "./styles/main.css",
+    }),
   ],
   module: {
-      rules: [
+    rules: [
+    {
+        test: /\.(?:ico|png|jpg|jpeg|svg)$/i,
+        type: 'asset/inline'
+    },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.scss$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        include: path.resolve(__dirname, "fonts"),
+        use: [
           {
-              test: /\.(?:ico|png|jpg|jpeg|svg)$/i,
-              type: 'asset/inline'
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "fonts/",
+              publicPath: "../fonts/",
+            },
           },
-          {
-              test: /\.html$/i,
-              loader: 'html-loader'
-          },
-          {
-              test: /\.css$/i,
-              use: [
-                MiniCssExtractPlugin.loader, 'css-loader'
-              ]
-          },
-          {
-              test: /\.scss$/i,
-              use: [
-                MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
-              ]
-          }
-      ]
+        ],
+      },
+    ],
   },
   ...devServer(develop),
 });
