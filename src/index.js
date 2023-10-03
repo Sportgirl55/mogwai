@@ -59,3 +59,116 @@ window.addEventListener("load", loadCards);
 
 // Генератор случайного числа для выбора картинок для подгруженных карточек
 const randomDigit = () => Math.floor(Math.random() * 10);
+//Проверка значения введённого в инпут на пустоту
+const isNotEmpty = (elem) => elem.value.length > 0;
+
+// ФОРМА //
+
+// Открытие формы и отправка заполненных данных
+
+const buttons = document.querySelectorAll(".request__button");
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const btnCloseModal = document.querySelector(".modal__close");
+const form = document.querySelector(".modal__form");
+const name = document.getElementById("name");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const errors = document.querySelectorAll(".modal__error");
+const emailError = document.querySelector(".modal__error_email");
+const nameError = document.querySelector(".modal__error_name");
+const phoneError = document.querySelector(".modal__error_phone");
+
+//Открытие модального окна по нажатию на кнопки "Оставить заявку"
+
+buttons.forEach(
+  (btn) =>
+    btn.classList.contains("form") && btn.addEventListener("click", openModal)
+);
+
+[btnCloseModal, overlay].forEach((item) =>
+  item.addEventListener("click", closeModal)
+);
+
+//Закрытие модального окна при нажатии на кнопку Esc
+document.addEventListener("keydown", (e) => e.key === "Escape" && closeModal());
+
+form.addEventListener("submit", (e) => {
+  if (checkValidity()) {
+    closeModal();
+    form.reset();
+  } else {
+    e.preventDefault();
+  }
+});
+
+// Валидация полей
+function validateField(field, error, regex) {
+  if (!regex.test(field.value.trim())) {
+    showError(
+      error,
+      isNotEmpty(field) ? error.dataset.errorText : "Поле не может быть пустым"
+    );
+    return false;
+  } else {
+    hideError(error);
+    return true;
+  }
+}
+
+// Проверка валидности каждого поля
+function checkValidity() {
+  const isNameValid = validateField(name, nameError, /^[a-zA-Zа-яА-Я\s]+$/);
+  const isEmailValid =
+    isNotEmpty(email) &&
+    validateField(
+      email,
+      emailError,
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  const isPhoneValid = validateField(
+    phone,
+    phoneError,
+    /^((\+7|7|8)+([0-9]){10})$/
+  );
+
+  if (isNotEmpty(phone) && isPhoneValid && !isNotEmpty(email)) {
+    hideError(emailError);
+  }
+
+  return (
+    isNameValid &&
+    isPhoneValid &&
+    (!isNotEmpty(email) || (isNotEmpty(email) && isEmailValid))
+  );
+}
+
+// Открытие/скрытие модального окна
+function closeModal() {
+  modal.classList.remove("show");
+  overlay.classList.remove("show");
+  errors.forEach((error) => hideError(error));
+
+  form.reset();
+}
+
+function openModal() {
+  form.reset();
+  modal.classList.add("show");
+  overlay.classList.add("show");
+}
+
+//Скрытие ошибки
+function hideError(error) {
+  error.style.display = "none";
+}
+
+// Отображение ошибки
+function showError(error, message) {
+  error.style.display = "block";
+  error.textContent = message;
+}
+
+name.addEventListener("input", () => hideError(nameError));
+email.addEventListener("input", () => hideError(emailError));
+phone.addEventListener("input", () => hideError(phoneError));

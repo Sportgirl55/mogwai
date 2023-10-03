@@ -69,7 +69,7 @@
       </div>
 
       <div class="request">
-        <button class="request__button" type="button">
+        <button class="request__button form" type="button">
           <span class="request__text slant">Оставить заявку</span>
         </button>
         <div class="request__tilt">
@@ -80,6 +80,33 @@
         </div>
       </div>
 
+      <div class="modal">
+        <button class="modal__close">&times;</button>
+        <fieldset>
+          <h2 class="modal__title">Создание заявки</h2>
+          <form class="modal__form" method="post" action="./" novalidate>
+            <label for="name">Фамилия и имя:
+              <input id="name" name="name" type="text">
+              <span class="modal__error modal__error_name" data-error-text="Поле должно содержать только буквы"></span>
+            </label>
+            <label for="phone">Контактный телефон(обязательно):
+              <input id="phone" name="phone" type="tel" placeholder="7 (___) ___ ____">
+              <span class="modal__error modal__error_phone"
+                    data-error-text="Пожалуйста, введите корректный номер телефона"></span>
+            </label>
+            <label for="email">Email:
+              <input id="email" name="email" type="email">
+              <span class="modal__error modal__error_email"
+                    data-error-text="Пожалуйста, введите корректный адрес email"></span>
+            </label>
+            <label for="message">Введите ваше сообщение:
+              <textarea id="message" name="comment" class="modal__message"></textarea>
+            </label>
+            <button class="modal__btn" type="submit">Отправить</button>
+          </form>
+        </fieldset>
+      </div>
+      <div class="overlay"></div>
     </div>
   </header>
 
@@ -89,7 +116,7 @@
         <h1 class="title">Полет Илона Маска и DOGIE COIN</h1>
         <span class="hero__text">В прошлый четверг все офигели от полета DOGIE COIN на марс.</span>
         <div class="request">
-          <button class="request__button" type="button">
+          <button class="request__button form" type="button">
             <span class="request__text slant">Оставить заявку</span>
           </button>
           <div class="request__tilt">
