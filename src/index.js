@@ -1,6 +1,8 @@
 import "./styles/normalize.scss";
 import "./styles/main.scss";
 import "./styles/fonts.scss";
+import "./styles/media.scss";
+import "./styles/variables.scss";
 
 // Создаём массив с картинками
 
@@ -31,7 +33,7 @@ function loadCards() {
                <p class="cards__date">Posted by <a href="#" class="cards__author">Eugenia</a>, on July 24, 2019</p>
              </div>
              <button class="cards__btn" type="button"><a href="#">Continue reading</a></button>`;
-        setTimeout(() => card.classList.add("show"), 200);
+        setTimeout(() => card.classList.add("show"), 10);
         return card;
       };
 
@@ -148,7 +150,6 @@ function closeModal() {
   modal.classList.remove("show");
   overlay.classList.remove("show");
   errors.forEach((error) => hideError(error));
-
   form.reset();
 }
 
@@ -159,16 +160,38 @@ function openModal() {
 }
 
 //Скрытие ошибки
-function hideError(error) {
-  error.style.display = "none";
-}
+const hideError = (error) => (error.style.display = "none");
 
 // Отображение ошибки
-function showError(error, message) {
+const showError = (error, message) => {
   error.style.display = "block";
   error.textContent = message;
-}
+};
 
 name.addEventListener("input", () => hideError(nameError));
 email.addEventListener("input", () => hideError(emailError));
 phone.addEventListener("input", () => hideError(phoneError));
+
+
+// Dropdown
+
+const dropdownBtn = document.querySelector(".header__dropdown");
+const dropdownMenu = document.querySelector(".header__menu");
+const heroSection = document.querySelector(".hero");
+const heroContent = document.querySelector(".hero__content");
+
+const toggleDropdown = () => {
+  heroSection.classList.toggle("blackout");
+  heroContent.classList.toggle("show");
+  dropdownMenu.classList.toggle("show-dropdown");
+};
+
+dropdownBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleDropdown();
+});
+
+document.documentElement.addEventListener(
+  "click",
+  () => dropdownMenu.classList.contains("show-dropdown") && toggleDropdown()
+);

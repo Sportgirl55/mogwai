@@ -1,0 +1,33 @@
+$main-font-family: Montserrat, Arial, sans-serif;
+$second-font-family: Mulish, Arial, sans-serif;
+$black: #131313;
+$second-black: #171717;
+$white: #fff;
+$beige: #c2ab81;
+$grey: #808080;
+
+@mixin cards-text {
+  color: #666;
+  line-height: 24px;
+}
+
+@mixin second-font {
+  font-family: $second-font-family;
+  font-size: 14px;
+}
+
+@mixin background-image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+@mixin visibility {
+  opacity: 1;
+  visibility: visible;
+}
+
+@mixin visibility-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
